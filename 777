@@ -12,16 +12,18 @@ function fl(){
 function result(){
     for i in $a $b $c
     do
-        echo "NUMMMMMM $i"
+        echo -ne '\007'
         fl "nums/$i.txt"
         sleep 1
     done
     if [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]] && [[ "$a" == "$c" ]]; then
-        echo "eog /tmp/ruletka/win.jpg"
+        eog /tmp/ruletka/win.jpg
     else
-        echo "eog /tmp/ruletka/lose.jpg"
+        eog /tmp/ruletka/lose.jpg
     fi
-    a=0; b=0;  c=0
+    a=0
+    b=0
+    c=0
 }
 
 function generate(){
@@ -44,15 +46,20 @@ function generate(){
 function win(){
     rdint
     rndnums=$?
-    a=$rndnums;     b=$rndnums;    c=$rndnums
+    a=$rndnums
+    b=$rndnums
+    c=$rndnums
 }
 
 function fault(){
     while  [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]] && [[ "$a" == "$c" ]]
     do
-    rdint;   a=$?; 
-    rdint;   b=$?; 
-    rdint;   c=$?; 
+        rdint
+        a=$? 
+        rdint   
+        b=$? 
+        rdint   
+        c=$? 
     done
 }
 
@@ -66,13 +73,9 @@ function shuffle(){
     for i in {1..10}
     do  
         clear
+        echo -ne '\007'
         rdint
         fl "nums/$?.txt"
-        sleep 0.1
-        if [ "$i" = "10" ]; then
-            rdint
-            a=$?
-        fi
     done
     clear
     
@@ -83,7 +86,7 @@ function herewego(){
     do
         clear
         fl "graph/hwgo$i.txt"
-        sleep 1
+        sleep 0.5
     done
     clear
 }

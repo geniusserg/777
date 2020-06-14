@@ -76,6 +76,7 @@ function shuffle(){
         echo -ne '\007'
         rdint
         fl "nums/$?.txt"
+	sleep 0.3
     done
     clear
     

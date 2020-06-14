@@ -1,0 +1,10 @@
+Package: vulkan
+Version: 1.0-1
+Provides: vulkan
+Maintainer: HSE_sdanilov
+Architecture: all
+Section: games
+Description: kazino
+Depends: eog, curl
+
+

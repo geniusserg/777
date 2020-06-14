@@ -16,7 +16,7 @@ function result(){
         fl "nums/$i.txt"
         sleep 1
     done
-    if [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]] && [[ "$a" == "$c" ]]; then
+    if [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]]; then
         eog /tmp/ruletka/win.jpg
     else
         eog /tmp/ruletka/lose.jpg
@@ -52,7 +52,7 @@ function win(){
 }
 
 function fault(){
-    while  [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]] && [[ "$a" == "$c" ]]
+    while  [[ "$a" == "$b" ]] && [[ "$c" == "$b" ]]
     do
         rdint
         a=$? 
@@ -91,17 +91,35 @@ function herewego(){
     clear
 }
 
+function askmenu() {
+    clear
+    echo -n "N - new game; Q - quit: "
+    while read -r -n 1 -s answer; do
+        if [[ $answer = [NnQq] ]]; then
+            [[ $answer = [Nn] ]] && retval=0
+            [[ $answer = [Qq] ]] && retval=1
+            break
+        fi
+    done
+    return $retval
+}
+
 function interrup(){
-    clear
-    herewego
-    sleep 1
-    clear
-	shuffle
-    clear
-    generate
-    result
-    sleep 1
-    clear
+    askmenu
+    if [ "$?" = "0" ]; then
+        clear
+        herewego
+        sleep 1
+        clear
+        shuffle
+        clear
+        generate
+        result
+        sleep 1
+        clear
+    else
+        stop_game
+    fi
 }
 
 function stop_game(){
@@ -113,9 +131,8 @@ function stop_game(){
 }
 
 trap interrup SIGINT
-trap stop_game SIGTSTP
 
-ctrlc_string="             Press Ctrl+C to begin play; Ctrl+Z and Ctrl-C to exit!"
+ctrlc_string="             Press Ctrl+C to go to menu!"
 
 mkdir /tmp/ruletka 1>/dev/null 2>&1
 nointernet=0
